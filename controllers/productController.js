@@ -5,6 +5,7 @@ const getProducts = async (req, res) => {
   res.render("products/index", { products });
 };
 
+
 const addProduct = async (req, res) => {
   const product = req.body;
   await productModel.create(product);
