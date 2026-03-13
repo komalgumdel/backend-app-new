@@ -1,18 +1,18 @@
-//place order and update order status
-import OrderModel from "../models/orderModel.js"; 
+import orderModel from "../models/orderModel.js";
+
 const placeOrder = async (req, res) => {
-    const orderData = req.body;
-    const order = await OrderModel.create(orderData);
-    res.json(order);
-}   
+  const response = await orderModel.create(req.body);
+  res.json(response);
+};
 
+const showOrders = async (req, res) => {
+  try {
+    const email = req.params.email;
+    const response = await orderModel.find({ email });
+    res.status(200).json(response);
+  } catch (err) {
+    res.status(401).json({ error: "Something went wrong" });
+  }
+};
 
-const updateOrderStatus = async (req, res) => {
-    const orderId = req.params.id;
-    const { status } = req.body;
-    const order = await OrderModel.findByIdAndUpdate(orderId, { status }, { new: true });
-    res.json(order);
-}
-
-
-export { placeOrder, updateOrderStatus }; 
+export { placeOrder, showOrders };
